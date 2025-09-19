@@ -1,0 +1,31 @@
+Evaluation Post Data format:
+
+{
+    "id": 1,
+    "student_id": 1,
+    "teacher_id": 1,
+    "questionaire": {
+        "category_1": [
+            { "question_id": 1, "score": 4 },
+            { "question_id": 2, "score": 3 },
+            { "question_id": 3, "score": 5 },
+            { "question_id": 4, "score": 4 }
+        ],
+                "category_2": [
+            { "question_id": 1, "score": 4 },
+            { "question_id": 2, "score": 3 },
+            { "question_id": 3, "score": 5 },
+            { "question_id": 4, "score": 4 }
+        ],
+                "category_3": [
+            { "question_id": 1, "score": 4 },
+            { "question_id": 2, "score": 3 },
+            { "question_id": 3, "score": 5 },
+            { "question_id": 4, "score": 4 }
+        ],
+    },
+    "feedback": {
+        "message": "something about the teacher",
+        "type": "Neutral"
+    }
+}

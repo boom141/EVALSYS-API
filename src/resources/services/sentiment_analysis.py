@@ -3,53 +3,48 @@ from configs import App_Config
 
 class Sentiment_Analysis:
     @staticmethod
-    def translate_to_english(feedback):
+    def language_model(content):
         headers = {
             "Authorization": f"Bearer {App_Config.HF_ACCESS_TOKEN}"
         }
-
+        
         payload = {
             "messages": [
                 {
                     "role": "user",
-                    "content": f"{feedback} PLEASE TRANSLATE TO ENGLISH"
+                    "content": f"{content}"
                 }
             ],
             "model": "openai/gpt-oss-20b:nebius"
         }
         
         response = requests.post(App_Config.OPENAI_API, headers=headers, json=payload)
-        result =   response.json()
+        result =  response.json()
         return result['choices'][0]['message']['content']
         
             
-    @staticmethod
-    def classify_sentiment(label):
-        if label in ["4 stars", "5 stars"]:
-            return "Positive"
-        elif label == "3 stars":
-            return "Neutral"
-        else:
-            return "Negative"
+    # @staticmethod
+    # def classify_sentiment(label):
+    #     if label in ["4 stars", "5 stars"]:
+    #         return "Positive"
+    #     elif label == "3 stars":
+    #         return "Neutral"
+    #     else:
+    #         return "Negative"
     
+    def translate_to_english(feedback):
+        content = f"{feedback} PLEASE TRANSLATE TO ENGLISH, IF ITS ALREADY IN ENGLISH JUST RETURN THE CONTENT THAT I SENT TO YOU"
+        return Sentiment_Analysis.language_model(content=content)
+        
     @staticmethod
     def get_sentiment_polarity(feedback):
-        try:          
-            headers = {
-                "Authorization": f"Bearer {App_Config.HF_ACCESS_TOKEN}",
-            }
+        try:                      
             
-            payload = {
-                "inputs": Sentiment_Analysis.translate_to_english(feedback=feedback)
-            }
-            
-            
-            response = requests.post(App_Config.SENTIMENT_ANALYSIS_API, headers=headers, json=payload)
-            [result] =   response.json()
-    
-            raw_label = result[0]['label']
-            sentiment = Sentiment_Analysis.classify_sentiment(raw_label)
-            
+            mutated_feedback = Sentiment_Analysis.translate_to_english(feedback=feedback)
+            content = f"{mutated_feedback} GIVE THE SENTIMENT OF THIS CONTENT ONLY SAYS NEGATIVE, NEUTRAL, POSITVE"
+            print(mutated_feedback)
+            sentiment = Sentiment_Analysis.language_model(content=content)
+            print(sentiment)
             return sentiment
             
         except Exception as e:
