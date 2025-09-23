@@ -42,9 +42,7 @@ class Sentiment_Analysis:
             
             mutated_feedback = Sentiment_Analysis.translate_to_english(feedback=feedback)
             content = f"{mutated_feedback} GIVE THE SENTIMENT OF THIS CONTENT ONLY SAYS NEGATIVE, NEUTRAL, POSITVE"
-            print(mutated_feedback)
             sentiment = Sentiment_Analysis.language_model(content=content)
-            print(sentiment)
             return sentiment
             
         except Exception as e:

@@ -26,6 +26,5 @@ Evaluation Post Data format:
     },
     "feedback": {
         "message": "something about the teacher",
-        "type": "Neutral"
     }
 }

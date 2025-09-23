@@ -35,11 +35,11 @@ class Overview_Service:
         normalized_rating = round(((average_rating / 5) * 100), 2)
         
         return {
-            'strongly_disagree': {'label': 'Strongly Disagree', 'count': strongly_disagree},
-            'disagree': {'label': 'Disagree', 'count': disagree},
-            'neutral': {'label': 'Neutral', 'count': neutral},
-            'agree': {'label': 'Agree', 'count': agree},
-            'outstanding': {'label': 'Outstanding', 'count': outstanding},
+            'strongly_disagree': {'label': 'Strongly Disagree', 'count': strongly_disagree['count']},
+            'disagree': {'label': 'Disagree', 'count': disagree['count']},
+            'neutral': {'label': 'Neutral', 'count': neutral['count']},
+            'agree': {'label': 'Agree', 'count': agree['count']},
+            'outstanding': {'label': 'Outstanding', 'count': outstanding['count']},
             'average_rating': average_rating,
             'normalized_rating': normalized_rating
         }
@@ -68,10 +68,11 @@ class Overview_Service:
             try:
                 sentiment = item["feedback"]["type"].strip().lower()
                 message = item["feedback"]["message"].strip()
+                timestamp = item["created_at"].split(' ')[0].strip()
 
                 if sentiment in sentiment_data:
                     sentiment_data[sentiment]["count"] += 1
-                    sentiment_data[sentiment]["feedbacks"].append(message)
+                    sentiment_data[sentiment]["feedbacks"].append({'message': message, 'timestamp': timestamp})
 
             except (KeyError, AttributeError):
                 continue
@@ -89,6 +90,8 @@ class Overview_Service:
         sentiment_data['normalized_rating'] = normalized_rating
         
         return sentiment_data
+    
+
         
     
     @staticmethod
@@ -100,17 +103,27 @@ class Overview_Service:
         if condition:
             res = [data for data in res if data['teacher_id'] == condition]
         
+        analytics = None
+        if res:
         
-        info_cards = Overview_Service.get_inforcards(source=res)
-        sentiment_data = Overview_Service.analyze_feedback_sentiments(source=res)
-        participation_score = round((len(res) / 350) * 100,2)
-    
+            info_cards = Overview_Service.get_inforcards(source=res)
+            sentiment_data = Overview_Service.analyze_feedback_sentiments(source=res)
+            participation_score = round((len(res) / 350) * 100,2)
         
-        analytics =  { 
-                'info_cards': info_cards,
-                'sentiment_data' : sentiment_data,
-                'participation_score': participation_score,
-                'total_response': len(res),
-            }
+            
+            analytics =  { 
+                    'info_cards': info_cards,
+                    'sentiment_data' : sentiment_data,
+                    'participation_score': participation_score,
+                    'evaluation_rating': info_cards['normalized_rating'],
+                    'feedback_rating': sentiment_data['normalized_rating'],
+                    'total_response': len(res),
+                }
+        else:
+            analytics = {
+                    'evaluation_rating': 0.00,
+                    'feedback_rating': 0.00,
+                    'total_response': len(res),
+                    }
         
         return analytics
