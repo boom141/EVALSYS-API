@@ -7,6 +7,13 @@ from src.helpers import timestamp
 class Evaluation_Controller(Resource):
     
     def get(self):
+        # try:
+
+            
+        #     return 'Resource added successfully', 200
+        # except Exception as e:
+        #     print(e)
+        #     return "Error on request", 500
         pass
         
     def post(self):

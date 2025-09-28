@@ -17,7 +17,7 @@ mongo_client = MongoClient(uri)
 db = mongo_client['evalsys_db']
 
 db_evaluations = db['evaluations']
-db_students = db['students']
+db_students = db['student']
 db_faculty = db['faculty']
 
 from src.resources import *

@@ -28,3 +28,18 @@ Evaluation Post Data format:
         "message": "something about the teacher",
     }
 }
+
+
+
+
+"course" : "College Of Computing Studies"
+"username": "student@malinay",
+"password": "123456",
+"name": "Sheena Nicole Malinay",
+"evaluatees":[
+    {"teacher_id": "68ca7b9e362b57b8d9d0a74f", "status": "Pending"},
+    {"teacher_id": "68ca7caa362b57b8d9d0a752", "status": "Pending"},
+    {"teacher_id": "68ca7ce1362b57b8d9d0a753", "status": "Pending"},
+    {"teacher_id": "68ca7d00362b57b8d9d0a754", "status": "Pending"}
+]
+
