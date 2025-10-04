@@ -1,5 +1,6 @@
-from src import db_evaluations
+from src import db_evaluations, db_students
 from src.helpers import serialize_objectid
+from bson import ObjectId
 
 class Overview_Service:
 
@@ -92,16 +93,27 @@ class Overview_Service:
         return sentiment_data
     
 
+    @staticmethod
+    def section_checker(student_id):
+        try:
+            res = db_students.find_one({'_id': ObjectId(student_id)})
+            return serialize_objectid(res)['section']
+        except Exception as e:
+            return False
         
     
+    
     @staticmethod
-    def get_analytics(condition):
+    def get_analytics(teacher_id=None, section_name=None):
         res = list(db_evaluations.find())
         
         res = [serialize_objectid(data) for data in res]
         
-        if condition:
-            res = [data for data in res if data['teacher_id'] == condition]
+        if teacher_id and section_name:
+            res = [data for data in res if data['teacher_id'] == teacher_id and section_name == Overview_Service.section_checker(student_id=data['student_id'])]
+        
+        if teacher_id and section_name == None:
+            res = [data for data in res if data['teacher_id'] == teacher_id]
         
         analytics = None
         if res:

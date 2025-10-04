@@ -32,3 +32,4 @@ class Evaluation_Controller(Resource):
             return "Error on request", 500
     
 api.add_resource(Evaluation_Controller, '/evaluation')
+
