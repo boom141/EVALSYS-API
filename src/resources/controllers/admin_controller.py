@@ -17,6 +17,8 @@ api.add_resource(Overview_Controller, '/overview')
 class Department_Controller(Resource):
     def get(self):   
         
+        department_filter = request.args.get('department_name', None)
+        
         sections = ['section_1']
              
         db_res_faculty = list(db_faculty.find())
@@ -31,33 +33,6 @@ class Department_Controller(Resource):
                 }
                 for data in db_res_faculty
             ]
-        
-        # temp_res = []
-        # for data in faculty_data:
-        #     evaluation_rating_sum = 0
-        #     feedback_rating_sum = 0
-        #     total_response = 0
-        #     for item in data['section_data']:
-        #         evaluation_rating_sum += (item['data']['evaluation_rating'] * item['data']['total_response'])
-        #         feedback_rating_sum += (item['data']['feedback_rating'] * item['data']['total_response'])
-        #         total_response += item['data']['total_response']
-    
-            
-        #     if total_response != 0:
-        #         evaluation_rating_avg = evaluation_rating_sum / total_response
-        #         feedback_rating_avg = feedback_rating_sum / total_response
-        #     else:
-        #         evaluation_rating_avg = evaluation_rating_sum 
-        #         feedback_rating_avg = feedback_rating_sum
-            
-        #     temp_res.append({
-        #         **data, 
-        #         'evaluation_rating': evaluation_rating_avg,
-        #         'feedback_rating': feedback_rating_avg,
-        #         'total_response': total_response,
-        #     })
-        
-        # faculty_data = temp_res
         
         departments = ['College Of Computing Studies']
         
@@ -84,7 +59,7 @@ class Department_Controller(Resource):
             
             
             temp_res.append({
-                'dapartment_name': department_name,
+                'department_name': department_name,
                 'evaluation_rating': evaluation_rating_avg,
                 'feedback_rating': feedback_rating_avg,
                 'total_response': total_response,
@@ -93,6 +68,9 @@ class Department_Controller(Resource):
         
         res = temp_res
         
+        if department_filter != 'undefined':
+            res = [data for data in res if data['department_name'] == department_filter]
+
         return res, 200
         
 api.add_resource(Department_Controller, '/department')
