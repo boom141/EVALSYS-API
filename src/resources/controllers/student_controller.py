@@ -8,15 +8,17 @@ class Student_Controller(Resource):
     def get(self):
         try:
             student_id = request.args.get('student_id', False)
+            print(student_id)
             student_res = list(db_students.find())
-            student_res = [serialize_objectid(data) for data in student_res if data['_id'] == ObjectId(student_id)]
+            student_res = [serialize_objectid(data) for data in student_res if str(data['_id']) == student_id]
+            print(student_res)
             
             faculties = [ data['teacher_id'] for data in student_res[0]['evaluatees'] ]
                 
             faculty_res = list(db_faculty.find())
             faculty_res = [serialize_objectid(data) for data in faculty_res]
 
-        
+
             faculty_res = [
                     {
                         **{k: v for k, v in data.items() if k not in ['password', 'username']},
