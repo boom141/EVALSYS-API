@@ -60,8 +60,8 @@ class Department_Controller(Resource):
             
             temp_res.append({
                 'department_name': department_name,
-                'evaluation_rating': evaluation_rating_avg,
-                'feedback_rating': feedback_rating_avg,
+                'evaluation_rating': round(evaluation_rating_avg, 2),
+                'feedback_rating': round(feedback_rating_avg, 2),
                 'total_response': total_response,
                 'department_data': department_faculty_data
             })

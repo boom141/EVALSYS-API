@@ -19,5 +19,6 @@ db = mongo_client['evalsys_db']
 db_evaluations = db['evaluations']
 db_students = db['student']
 db_faculty = db['faculty']
+db_forms = db['forms']
 
 from src.resources import *
