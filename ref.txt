@@ -4,6 +4,8 @@ Evaluation Post Data format:
     "id": 1,
     "student_id": 1,
     "teacher_id": 1,
+    "school_year: "sy-2025-2026",
+    "semester": 1
     "questionaire": {
         "category_1": [
             { "question_id": 1, "score": 4 },

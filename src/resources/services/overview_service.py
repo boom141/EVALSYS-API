@@ -13,8 +13,8 @@ class Overview_Service:
         outstanding = { 'score': 5, 'count': 0  }
         
         for items in source:
-            for key in items['questionaire']:
-                for data in items['questionaire'][key]:
+            for key in items['questionnaire']:
+                for data in items['questionnaire'][key]:
                     if data['score'] == strongly_disagree['score']:
                         strongly_disagree['count'] += 1
                     if data['score'] == disagree['score']:
@@ -104,10 +104,16 @@ class Overview_Service:
     
     
     @staticmethod
-    def get_analytics(teacher_id=None, section_name=None):
+    def get_analytics(teacher_id=None, section_name=None, school_year=None, semester=None):
         res = list(db_evaluations.find())
         
         res = [serialize_objectid(data) for data in res]
+        
+        if school_year:
+            res = [data for data in res if data['school_year'] == school_year]
+        
+        if semester:
+            res = [data for data in res if data['semester'] == int(semester)]
         
         if teacher_id and section_name:
             res = [data for data in res if data['teacher_id'] == teacher_id and section_name == Overview_Service.section_checker(student_id=data['student_id'])]

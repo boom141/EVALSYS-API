@@ -7,8 +7,10 @@ from src.helpers import serialize_objectid
 
 class Overview_Controller(Resource):
     def get(self):
-        
-            analytics = Overview_Service.get_analytics()
+            school_year = request.args.get('school_year', None)
+            semester = request.args.get('semester', None)
+            
+            analytics = Overview_Service.get_analytics(school_year=school_year,semester=semester)
             
             return analytics, 200
     
@@ -16,8 +18,9 @@ api.add_resource(Overview_Controller, '/overview')
 
 class Department_Controller(Resource):
     def get(self):   
-        
-        department_filter = request.args.get('department_name', None)
+        school_year = request.args.get('school_year', None)
+        semester = request.args.get('semester', None)
+        department_name = request.args.get('department_name', None)
         
         sections = ['section_1']
              
@@ -28,8 +31,8 @@ class Department_Controller(Resource):
         faculty_data = [
                 {
                     **{k: v for k, v in data.items() if k not in ['password', 'username']},
-                    'section_data': [ { 'name': section_name, 'data': Overview_Service.get_analytics(teacher_id=data['_id'], section_name=section_name)} for section_name in sections],
-                    'overall_data': Overview_Service.get_analytics(teacher_id=data['_id'])
+                    'section_data': [ { 'name': section_name, 'data': Overview_Service.get_analytics(teacher_id=data['_id'], section_name=section_name, school_year=school_year,semester=semester)} for section_name in sections],
+                    'overall_data': Overview_Service.get_analytics(teacher_id=data['_id'], school_year=school_year,semester=semester)
                 }
                 for data in db_res_faculty
             ]
@@ -67,9 +70,9 @@ class Department_Controller(Resource):
             })
         
         res = temp_res
-        
-        if department_filter != 'undefined':
-            res = [data for data in res if data['department_name'] == department_filter]
+        print(res, department_name)
+        if department_name != 'undefined':
+            res = [data for data in res if data['department_name'] == department_name]
 
         return res, 200
         
