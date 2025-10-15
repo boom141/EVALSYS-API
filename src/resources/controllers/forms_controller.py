@@ -6,8 +6,18 @@ from bson.objectid import ObjectId
 class Forms_Controller(Resource):
     def get(self):
         try:
+            school_year = request.args.get('school_year', None)
+            semester = request.args.get('semester', None)
+            
             res = list(db_forms.find())
             res = [serialize_objectid(item) for item in res]
+            
+                    
+            if school_year:
+                res = [data for data in res if data['school_year'] == school_year]
+            
+            if semester:
+                res = [data for data in res if data['semester'] == int(semester)]
             
             return res, 200
         

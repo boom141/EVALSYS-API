@@ -7,23 +7,25 @@ from src.helpers import serialize_objectid
 
 class Overview_Controller(Resource):
     def get(self):
-            school_year = request.args.get('school_year', None)
-            semester = request.args.get('semester', None)
-            
-            analytics = Overview_Service.get_analytics(school_year=school_year,semester=semester)
-            
-            return analytics, 200
+        
+        school_year = request.args.get('school_year', None)
+        semester = request.args.get('semester', None)
+        
+        analytics = Overview_Service.get_analytics(school_year=school_year,semester=semester)
+        
+        return analytics, 200
     
 api.add_resource(Overview_Controller, '/overview')
 
 class Department_Controller(Resource):
-    def get(self):   
+    def get(self):
+
         school_year = request.args.get('school_year', None)
         semester = request.args.get('semester', None)
         department_name = request.args.get('department_name', None)
-        
+
         sections = ['section_1']
-             
+
         db_res_faculty = list(db_faculty.find())
         db_res_faculty = [serialize_objectid(data) for data in db_res_faculty]
         

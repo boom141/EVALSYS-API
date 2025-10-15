@@ -41,7 +41,7 @@ class Sentiment_Analysis:
         try:                      
             
             mutated_feedback = Sentiment_Analysis.translate_to_english(feedback=feedback)
-            content = f"{mutated_feedback} GIVE THE SENTIMENT OF THIS CONTENT ONLY SAYS NEGATIVE, NEUTRAL, POSITVE"
+            content = f"{mutated_feedback} GIVE THE SENTIMENT OF THIS CONTENT ONLY SAYS NEGATIVE, NEUTRAL, POSITIVE"
             sentiment = Sentiment_Analysis.language_model(content=content)
             return sentiment
             

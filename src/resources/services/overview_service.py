@@ -67,10 +67,10 @@ class Overview_Service:
 
         for item in source:
             try:
-                sentiment = item["feedback"]["type"].strip().lower()
+                sentiment = item["feedback"]["type"].lower()
                 message = item["feedback"]["message"].strip()
                 timestamp = item["created_at"].split(' ')[0].strip()
-
+                
                 if sentiment in sentiment_data:
                     sentiment_data[sentiment]["count"] += 1
                     sentiment_data[sentiment]["feedbacks"].append({'message': message, 'timestamp': timestamp})
@@ -120,6 +120,8 @@ class Overview_Service:
         
         if teacher_id and section_name == None:
             res = [data for data in res if data['teacher_id'] == teacher_id]
+        
+        print(len(res))
         
         analytics = None
         if res:
