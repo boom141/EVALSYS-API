@@ -6,8 +6,15 @@ from bson.objectid import ObjectId
 class Forms_Controller(Resource):
     def get(self):
         try:
+            role = request.args.get('role', None)
             school_year = request.args.get('school_year', None)
             semester = request.args.get('semester', None)
+            
+            if role == 'student':
+                res = db_forms.find_one({'status': 'Active'})
+                res['_id'] = str(res['_id'])
+                return res
+            
             
             res = list(db_forms.find())
             res = [serialize_objectid(item) for item in res]
@@ -41,7 +48,12 @@ class Forms_Controller(Resource):
     def put(self, id):
         try:
             update_data = request.get_json()
-            print(update_data['update_data'])
+
+            db_forms.update_many(
+                {'status': {'$eq':'Active'}},
+                {'$set':{'status':'Inactive'}}
+            )
+            
             db_forms.update_one(
                 {'_id': ObjectId(id)},
                 {'$set': update_data['update_data']}
