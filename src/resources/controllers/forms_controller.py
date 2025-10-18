@@ -41,10 +41,10 @@ class Forms_Controller(Resource):
     def put(self, id):
         try:
             update_data = request.get_json()
-            
+            print(update_data['update_data'])
             db_forms.update_one(
                 {'_id': ObjectId(id)},
-                {'$set': update_data}
+                {'$set': update_data['update_data']}
             )
             
             return 'Resource updated successfully', 200

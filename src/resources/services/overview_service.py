@@ -121,7 +121,6 @@ class Overview_Service:
         if teacher_id and section_name == None:
             res = [data for data in res if data['teacher_id'] == teacher_id]
         
-        print(len(res))
         
         analytics = None
         if res:

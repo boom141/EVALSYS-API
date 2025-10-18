@@ -20,5 +20,6 @@ db_evaluations = db['evaluations']
 db_students = db['student']
 db_faculty = db['faculty']
 db_forms = db['forms']
+db_dean = db['dean']
 
 from src.resources import *
