@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object(App_Config)
-CORS(app)
+CORS(app, origins=['http://127.0.0.1:4300', 'https://evalsys-udm.netlify.app'])
 api = Api(app)
 
 
