@@ -1,5 +1,4 @@
 from flask import Flask, Blueprint
-from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Resource, Api
 from configs import *
 from flask_cors import CORS
