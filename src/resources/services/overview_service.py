@@ -83,6 +83,10 @@ class Overview_Service:
         for key in sentiment_data:
             rating += sentiment_data[key]['count'] * sentiment_data[key]['score']
             total_response_answer += sentiment_data[key]['count']
+
+        print(source)
+        print(sentiment_data)
+        print(rating, total_response_answer, '\n\n')
         
         average_rating = round((rating / total_response_answer), 2)
         normalized_rating = round((average_rating / 3) * 100)
@@ -127,7 +131,7 @@ class Overview_Service:
         
             info_cards = Overview_Service.get_inforcards(source=res)
             sentiment_data = Overview_Service.analyze_feedback_sentiments(source=res)
-            participation_score = round((len(res) / 350) * 100,2)
+            participation_score = round((len(res) / 225) * 100,2)
         
             
             analytics =  { 

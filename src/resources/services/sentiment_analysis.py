@@ -22,18 +22,9 @@ class Sentiment_Analysis:
         result =  response.json()
         return result['choices'][0]['message']['content']
         
-            
-    # @staticmethod
-    # def classify_sentiment(label):
-    #     if label in ["4 stars", "5 stars"]:
-    #         return "Positive"
-    #     elif label == "3 stars":
-    #         return "Neutral"
-    #     else:
-    #         return "Negative"
     
     def translate_to_english(feedback):
-        content = f"{feedback} PLEASE TRANSLATE TO ENGLISH, IF ITS ALREADY IN ENGLISH JUST RETURN THE CONTENT THAT I SENT TO YOU"
+        content = f"{feedback} {App_Config.TRANSLATOR_COMMAND}"
         return Sentiment_Analysis.language_model(content=content)
         
     @staticmethod
@@ -41,7 +32,7 @@ class Sentiment_Analysis:
         try:                      
             
             mutated_feedback = Sentiment_Analysis.translate_to_english(feedback=feedback)
-            content = f"{mutated_feedback} GIVE THE SENTIMENT OF THIS CONTENT ONLY SAYS NEGATIVE, NEUTRAL, POSITIVE"
+            content = f"{mutated_feedback} {App_Config.SENTIMENT_COMMAND}"
             sentiment = Sentiment_Analysis.language_model(content=content)
             return sentiment
             
