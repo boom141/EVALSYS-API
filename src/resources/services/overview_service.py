@@ -98,6 +98,17 @@ class Overview_Service:
     
 
     @staticmethod
+    def unserious_evaluation(source):
+        res_data = []
+        unserious_evaluations = [item for item in source if item['unserious']]
+        for item in unserious_evaluations:
+            likert_score = Overview_Service.get_inforcards(source=[item])
+            student = db_students.find_one({'_id':ObjectId(item['student_id'])})
+            res_data.append({ 'student_name': student['name'], 'section':student['section'], 'course':student['course'], 'evaluation_rating': likert_score['normalized_rating'], 'sentiment_polarity_result':item['feedback']['type'] })
+
+        return res_data
+    
+    @staticmethod
     def section_checker(student_id):
         try:
             res = db_students.find_one({'_id': ObjectId(student_id)})
@@ -132,7 +143,7 @@ class Overview_Service:
             info_cards = Overview_Service.get_inforcards(source=res)
             sentiment_data = Overview_Service.analyze_feedback_sentiments(source=res)
             participation_score = round((len(res) / 225) * 100,2)
-        
+            unserious_evaluation_data = Overview_Service.unserious_evaluation(source=res)
             
             analytics =  { 
                     'info_cards': info_cards,
@@ -140,6 +151,7 @@ class Overview_Service:
                     'participation_score': participation_score,
                     'evaluation_rating': info_cards['normalized_rating'],
                     'feedback_rating': sentiment_data['normalized_rating'],
+                    'unserious_evaluation_data': unserious_evaluation_data,
                     'total_response': len(res),
                 }
         else:
