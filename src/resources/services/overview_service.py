@@ -1,4 +1,4 @@
-from src import db_evaluations, db_students
+from src import db_evaluations, db_students, db_faculty
 from src.helpers import serialize_objectid
 from bson import ObjectId
 
@@ -104,7 +104,8 @@ class Overview_Service:
         for item in unserious_evaluations:
             likert_score = Overview_Service.get_inforcards(source=[item])
             student = db_students.find_one({'_id':ObjectId(item['student_id'])})
-            res_data.append({ 'student_name': student['name'], 'section':student['section'], 'course':student['course'], 'evaluation_rating': likert_score['normalized_rating'], 'sentiment_polarity_result':item['feedback']['type'] })
+            teacher = db_faculty.find_one({'_id':ObjectId(item['teacher_id'])})
+            res_data.append({ 'student_name': student['name'], 'section':student['section'], 'course':student['course'], 'teacher_name':teacher['name'], 'evaluation_rating': likert_score['normalized_rating'], 'sentiment_polarity_result':item['feedback']['type'] })
 
         return res_data
     
